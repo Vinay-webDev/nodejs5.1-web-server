@@ -90,11 +90,13 @@ const server = http.createServer((req, res) => {
         
         switch(path.parse(filePath).base) {
             case 'old-page.html':
-                res.writeHead(301, {'Content-Type':'/new-page.html'});
+                //res.writeHead(301, {'Content-Type':'/new-page.html'}); // use Location✅ not contentType ❌because it's a URL
+                res.writeHead(301, {'Location':'/new-page.html'});
                 res.end();
                 break;
             case 'www-page.html':
-                res.writeHead(301, {'Content-Type':'/'});
+                //res.writeHead(301, {'Content-Type':'/'}); // use Location✅ not contentType ❌because it's a URL
+                res.writeHead(301, {'Location':'/'});
                 res.end();
                 break;
             default:
