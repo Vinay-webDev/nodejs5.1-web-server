@@ -10,6 +10,7 @@ const EventEmitter = require('events');
 class Emitter extends EventEmitter {};
 //initialize the object or instance👇
 const myEmitter = new Emitter();
+myEmitter.on('log', (msg, fileName) => logEvents(msg, fileName));
 
 const PORT = process.env.PORT || 3500;
 // this function should always above server and below PORT
@@ -119,16 +120,12 @@ const server = http.createServer((req, res) => {
     }
 })
 // also we need to listen for this
-
 server.listen(PORT, () => {
     console.log(`server is running on ${PORT}`);
 })
 // 👉👉👉remember this should always be at the end the server.js file👈👈👈
 
 
-myEmitter.on('log', (msg) => {
-    logEvents(msg);
-} );
 
 
 
