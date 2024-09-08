@@ -6,3 +6,6 @@
 20240909	00:56:36	9db4cdbb-7f61-4845-99a4-18aff27507ab	/css/style.css	GET
 20240909	00:57:47	0be39f6e-397f-4cbe-823a-da25481bff48	/new-page.html	GET
 20240909	00:57:53	767efcba-8144-4165-8eba-a3e5f7d240bb	/new-page.html	GET
+20240909	01:00:53	245e12ef-175b-42a7-900a-80e048a55f40	/new-page.html	GET
+20240909	01:00:53	69c38c2f-2b83-458f-851e-0ceffa2b1ef8	/css/style.css	GET
+20240909	01:00:53	5074260a-a7af-40ac-b967-4d4dd90d362e	/img/jpeg/catOne.jpeg	GET
