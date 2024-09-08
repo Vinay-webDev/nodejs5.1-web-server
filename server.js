@@ -34,6 +34,7 @@ const serveFile = async (filePath, contentType, response) => {
         
     } catch(err) {
         console.log(err);
+        myEmitter.emit('log', `${err.name}\t${err.message}`, 'errLog.txt');
         response.statusCode = 500;
         response.end();
     }
@@ -41,7 +42,7 @@ const serveFile = async (filePath, contentType, response) => {
 // a better code and dynamic way of writing server
 const server = http.createServer((req, res) => {
     console.log(req.url, req.method);
-
+    myEmitter.emit('log', `${req.url}\t${req.method}`, 'reqLog.txt'); // there's another parameter for where we need put in these logEvents 
     const extension = path.extname(req.url);
 
     let contentType;
@@ -125,6 +126,11 @@ server.listen(PORT, () => {
 // 👉👉👉remember this should always be at the end the server.js file👈👈👈
 
 
+myEmitter.on('log', (msg) => {
+    logEvents(msg);
+} );
+
+
 
 /////////////////////////////////////////////////////////////
 /*
@@ -184,13 +190,11 @@ const server = http.createServer((req, res) => {
 
 
 /*
-// we need to add event listener for the log event
-myEmitter.on('log', (msg) => {
-    logEvents(msg);
-} );
 
-myEmitter.emit('log', 'Log event emitted!');
+
+
 ////////////////////////////////////////////////////////
+// we need to add event listener for the log event
 myEmitter.on('log', (msg) => {
     logEvents(msg);
 })
