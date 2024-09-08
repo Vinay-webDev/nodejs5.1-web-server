@@ -23,7 +23,11 @@ const serveFile = async (filePath, contentType, response) => {
         );
         const data = contentType === 'application/json' 
                 ? JSON.parse(rawData) : rawData
-        response.writeHead(200, {'Content-Type': contentType});
+        // we still having 200 (which means sucessful) for 404 we need to change that for 404***
+        response.writeHead(
+            filePath.includes('404.html') ? 404 : 200,
+            {'Content-Type': contentType}
+        );
         response.end( contentType === 'application/json' 
                             ? JSON.stringify(data) : data
         );
