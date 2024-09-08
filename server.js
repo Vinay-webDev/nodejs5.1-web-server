@@ -50,7 +50,7 @@ const server = http.createServer((req, res) => {
             contentType = 'text/html';
     }
     //filePath ternary chain
-    const filePath = 
+    let filePath = 
             contentType === 'text/html' && req.url === '/'
             ? path.join(__dirname, 'views', 'index.html')
             : contentType === 'text/html' && req.url.slice(-1) === '/'//subdirectory***
@@ -62,7 +62,7 @@ const server = http.createServer((req, res) => {
     // need to check any page request that are without .html extension then need to add .html to it
     // not required in browser because browser adds .html by default
     // makes .html extension 
-    if (!extension && req.url.slice(-1) !== '/') filePath += '.html';
+    if (!extension && req.url.slice(-1) !== '/') {filePath += '.html'};
 
     // now we need a way to server files 
     // before that we need to check for file exists or not
@@ -73,6 +73,7 @@ const server = http.createServer((req, res) => {
     } else {
         // 404
         // 301 redirect
+        console.log(path.parse(filePath));
     }
 })
 // also we need to listen for this
