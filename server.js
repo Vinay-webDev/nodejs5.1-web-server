@@ -12,8 +12,8 @@ class Emitter extends EventEmitter {};
 const myEmitter = new Emitter();
 
 const PORT = process.env.PORT || 3500;
-
-const server = http.createServer((req, res) => {
+/*
+const serverOne = http.createServer((req, res) => {
     console.log(req.url, req.method);
 
     let filePath; 
@@ -28,7 +28,24 @@ const server = http.createServer((req, res) => {
         })
     }
 });
+*/
+/* 
+// the app crashed here const
+const server = http.createServer((req, res) => {
+    console.log(req.url, req.method);
 
+    switch(req.url) {
+        case '/':
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/html');
+            path = path.join(__dirname, 'views', 'index.html');
+            fs.readFile(path, 'utf8', (err, data) => {
+                res.end(data);
+            })
+            break;
+    }
+})
+*/
 
 // also we need to listen for this
 // remember this should always be at the end the server.js file
