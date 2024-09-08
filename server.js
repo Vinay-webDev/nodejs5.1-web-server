@@ -54,11 +54,8 @@ const server = http.createServer((req, res) => {
         case '.png':
             contentType = 'image/png';
             break;
-        case '.jpeg':
-            contentType = 'image/jpeg';
-            break;
         case '.jpg':
-            contentType = 'image/jpg';
+            contentType = 'image/jpeg';
             break;
         default:
             contentType = 'text/html';
