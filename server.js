@@ -12,7 +12,81 @@ class Emitter extends EventEmitter {};
 const myEmitter = new Emitter();
 
 const PORT = process.env.PORT || 3500;
+
+// a better code and dynamic way of writing server
+const server = http.createServer((req, res) => {
+    console.log(req.url, req.method);
+
+    const extension = path.extname(req.url);
+
+    let contentType;
+
+    switch (extension) {
+        case '.js':
+            contentType = 'text/javascript';
+            break;
+        case '.html':
+            contentType = 'text/html';
+            break;
+        case '.css':
+            contentType = 'text/css';
+            break;
+        case '.json':
+            contentType = 'application/json';
+            break;
+        case '.txt':
+            contentType = 'text/plain';
+            break;
+        case '.png':
+            contentType = 'image/png';
+            break;
+        case '.jpeg':
+            contentType = 'image/jpeg';
+            break;
+        case '.jpg':
+            contentType = 'image/jpg';
+            break;
+        default:
+            contentType = 'text/html';
+    }
+    //filePath ternary chain
+    const filePath = 
+            contentType === 'text/html' && req.url === '/'
+            ? path.join(__dirname, 'views', 'index.html')
+            : contentType === 'text/html' && req.url.slice(-1) === '/'//subdirectory***
+                ?path.join(__dirname, 'views', req.url, 'index.html')
+                : contentType === 'text/html'
+                    ?path.join(__dirname, 'views', req.url)
+                    :path.join(__dirname, req.url);
+
+    // need to check any page request that are without .html extension then need to add .html to it
+    // not required in browser because browser adds .html by default
+    // makes .html extension 
+    if (!extension && req.url.slice(-1) !== '/') filePath += '.html';
+
+    // now we need a way to server files 
+    // before that we need to check for file exists or not
+    const fileExists = fs.existsSync(filePath);
+
+    if (fileExists) {
+        // server the file
+    } else {
+        // 404
+        // 301 redirect
+    }
+})
+// also we need to listen for this
+
+server.listen(PORT, () => {
+    console.log(`server is running on ${PORT}`);
+})
+// 👉👉👉remember this should always be at the end the server.js file👈👈👈
+
+
+
+/////////////////////////////////////////////////////////////
 /*
+//1.
 const serverOne = http.createServer((req, res) => {
     console.log(req.url, req.method);
 
@@ -30,6 +104,7 @@ const serverOne = http.createServer((req, res) => {
 });
 */
 /* 
+//2.
 // the app crashed here const
 const server = http.createServer((req, res) => {
     console.log(req.url, req.method);
@@ -46,15 +121,6 @@ const server = http.createServer((req, res) => {
     }
 })
 */
-
-// also we need to listen for this
-// remember this should always be at the end the server.js file
-server.listen(PORT, () => {
-    console.log(`server is running on ${PORT}`);
-})
-
-
-
 
 
 
