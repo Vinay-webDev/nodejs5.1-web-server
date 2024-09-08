@@ -84,6 +84,7 @@ const server = http.createServer((req, res) => {
 
     if (fileExists) {
         // server the file
+        // we still need to call the serveFile 
     } else {
         // 404
         // 301 redirect
