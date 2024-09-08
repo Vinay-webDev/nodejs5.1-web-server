@@ -17,7 +17,10 @@ const PORT = process.env.PORT || 3500;
 const serveFile = async (filePath, contentType, response) => {
     try {
         // need to have data from the files
-        const rawData = await fsPromises.readFile(filePath, 'utf8');
+        const rawData = await fsPromises.readFile(
+            filePath, 
+            !contentType.includes('image') ? 'utf8' : ''
+        );
         const data = contentType === 'application/json' 
                 ? JSON.parse(rawData) : rawData
         response.writeHead(200, {'Content-Type': contentType});
@@ -58,7 +61,7 @@ const server = http.createServer((req, res) => {
         case '.png':
             contentType = 'image/png';
             break;
-        case '.jpg':
+        case '.jpeg':
             contentType = 'image/jpeg';
             break;
         default:
