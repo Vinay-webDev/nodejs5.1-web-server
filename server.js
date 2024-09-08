@@ -18,7 +18,7 @@ const serveFile = async (filePath, contentType, response) => {
     try {
         // need to have data from the files
         const data = await fsPromises.readFile(filePath, 'utf8');
-        response.writeHead(200, {'Content-Type':contentType});
+        response.writeHead(200, {'Content-Type': contentType});
         response.end(data);
         
     } catch(err) {
@@ -85,13 +85,14 @@ const server = http.createServer((req, res) => {
     if (fileExists) {
         // server the file
         // we still need to call the serveFile 
+        serveFile(filePath, contentType, res);
     } else {
         // 404
         // 301 redirect
-        console.log(path.parse(filePath));
+        //console.log(path.parse(filePath));
         
         switch(path.parse(filePath).base) {
-            case 'old.html':
+            case 'old-page.html':
                 res.writeHead(301, {'Content-Type':'/new-page.html'});
                 res.end();
                 break;
@@ -101,6 +102,8 @@ const server = http.createServer((req, res) => {
                 break;
             default:
                 //we need a function that works at both spots
+                // we know exactly what file we need to serve here so 
+                serveFile(path.join(__dirname, 'views', '404.html'), 'text/html', res);
         }
     }
 })
