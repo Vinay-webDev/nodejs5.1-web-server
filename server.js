@@ -12,7 +12,21 @@ class Emitter extends EventEmitter {};
 const myEmitter = new Emitter();
 
 const PORT = process.env.PORT || 3500;
-
+// this function should always above server and below PORT
+// notice that👉 here 'response' not just res ('res' which we use later to pass down response);
+const serveFile = async (filePath, contentType, response) => {
+    try {
+        // need to have data from the files
+        const data = await fsPromises.readFile(filePath, 'utf8');
+        response.writeHead(200, {'Content-Type':contentType});
+        response.end(data);
+        
+    } catch(err) {
+        console.log(err);
+        response.statusCode = 500;
+        response.end();
+    }
+}
 // a better code and dynamic way of writing server
 const server = http.createServer((req, res) => {
     console.log(req.url, req.method);
@@ -49,7 +63,7 @@ const server = http.createServer((req, res) => {
         default:
             contentType = 'text/html';
     }
-    //filePath ternary chain
+    //filePath ternary chain //don't assign filePath to a const (the app crashes) 
     let filePath = 
             contentType === 'text/html' && req.url === '/'
             ? path.join(__dirname, 'views', 'index.html')
@@ -74,6 +88,19 @@ const server = http.createServer((req, res) => {
         // 404
         // 301 redirect
         console.log(path.parse(filePath));
+        
+        switch(path.parse(filePath).base) {
+            case 'old.html':
+                res.writeHead(301, {'Content-Type':'/new-page.html'});
+                res.end();
+                break;
+            case 'www-page.html':
+                res.writeHead(301, {'Content-Type':'/'});
+                res.end();
+                break;
+            default:
+                //we need a function that works at both spots
+        }
     }
 })
 // also we need to listen for this
